@@ -283,6 +283,8 @@ class BPNeuralNetwoksHelper:
         m = y_pre.shape[0]
         y_res = np.zeros(m)
 
+        np.savetxt('y_pre_test.csv',y_pre)
+
         for i in range(m):
             y_res[i] = int(not 0 in np.array((y_pre[i, :] == Y[i, :]),dtype='int'))
         
@@ -293,7 +295,7 @@ class BPNeuralNetwoksHelper:
         return self.GetAccuracy(self.X_test, self.Y_test)
     
 
-    def Train(self, alpha = 1.0, ebsilon = 0.001, iter_limit = 100, lam = 0, feature_scaling = False, get_accuracy = False):
+    def Train(self, alpha = 1.0, epsilon = 0.001, iter_limit = 100, lam = 0, feature_scaling = False, get_accuracy = False):
 
         if iter_limit < 2:
             # iter_limit = float('inf')
@@ -342,7 +344,7 @@ class BPNeuralNetwoksHelper:
             if J > J_old:
                 alpha = alpha / 2
             # the cost function is becoming larger, so the alpha should be smaller.
-            if abs(J_old - J) <= ebsilon:
+            if abs(J_old - J) <= epsilon:
                 break
         
         return  (np.array(J_list, dtype = 'float'),
